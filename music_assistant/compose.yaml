@@ -1,0 +1,20 @@
+services:
+  music-assistant-server:
+    image: ghcr.io/music-assistant/server:latest
+    container_name: music-assistant-server
+    restart: always
+    network_mode: host
+    volumes:
+      - ${USERDIR:-$HOME}/docker/music-assistant-server/data:/data/
+    cap_add:
+      - SYS_ADMIN
+      - DAC_READ_SEARCH
+    security_opt:
+      - apparmor:unconfined
+    environment:
+      - LOG_LEVEL=info
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.music-assistant-server.entrypoints=web"
+      - "traefik.http.routers.music-assistant-server.rule=Host(`${MA_HOST}`)"
+      - "traefik.http.services.music-assistant-server.loadbalancer.server.url=${MA_INTERNAL_URL}"
