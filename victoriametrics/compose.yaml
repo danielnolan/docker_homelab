@@ -1,0 +1,37 @@
+services:
+  victoriametrics:
+    container_name: victoriametrics
+    image: victoriametrics/victoria-metrics:latest
+    volumes:
+      - ${USERDIR:-$HOME}/docker/victoriametrics/data:/victoria-metrics-data
+    command:
+      - "--storageDataPath=/victoria-metrics-data"
+      - "--httpListenAddr=:8428"
+      - "--retentionPeriod=100y"
+    restart: always
+    networks:
+      - dnet
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.victoriametrics.entrypoints=web"
+      - "traefik.http.routers.victoriametrics.rule=Host(`${VICTORIA_HOST}`)"
+      - "traefik.http.services.victoriametrics.loadbalancer.server.port=8428"
+
+  vmagent:
+    container_name: vmagent
+    image: victoriametrics/vmagent:latest
+    volumes:
+      - ${USERDIR:-$HOME}/docker/victoriametrics/config/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--promscrape.config=/etc/prometheus/prometheus.yml"
+      - "--remoteWrite.url=http://${VICTORIA_HOST}/api/v1/write"
+    networks:
+      - dnet
+    restart: always
+    depends_on:
+      - victoriametrics
+
+networks:
+  dnet:
+    external: true
+
