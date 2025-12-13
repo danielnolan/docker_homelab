@@ -1,0 +1,23 @@
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: homeassistant/home-assistant:latest
+    volumes:
+      - ${USERDIR:-$HOME}/docker/homeassistant/config:/config
+      - /var/run/dbus:/run/dbus:ro
+    environment:
+      - TZ=America/New_York
+    restart: always
+    devices:
+      - dev/ttyACM0:dev/ttyACM0
+      - dev/ttyACM1:dev/ttyACM1
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    network_mode: host
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homeassistant.entrypoints=web"
+      - "traefik.http.routers.homeassistant.rule=Host(`${HA_HOST}`)"
+      - "traefik.http.services.homeassistant.loadbalancer.server.url=${HA_INTERNAL_URL}"
+
