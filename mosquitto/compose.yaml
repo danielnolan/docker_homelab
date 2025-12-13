@@ -1,0 +1,18 @@
+services:
+  mosquitto:
+    user: 1000:989
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    restart: always
+    networks:
+      - dnet
+    ports:
+      - 1883:1883
+      - 9001:9001
+    volumes:
+      - ${USERDIR:-$HOME}/docker/mosquitto:/mosquitto
+      - ${USERDIR:-$HOME}/docker/mosquitto/data:/mosquitto/data
+      - ${USERDIR:-$HOME}/docker/mosquitto/log:/mosquitto/log
+networks:
+  dnet:
+    external: true
