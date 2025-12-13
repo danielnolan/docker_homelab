@@ -1,0 +1,23 @@
+services:
+  grafana:
+    container_name: grafana
+    user: 1000:989
+    image: grafana/grafana:latest
+    volumes:
+      - ${USERDIR:-$HOME}/docker/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
+      - GF_INSTALL_PLUGINS=
+    restart: always
+    networks:
+      - dnet
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.entrypoints=web"
+      - "traefik.http.routers.grafana.rule=Host(`${GF_HOST}`)"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+
+networks:
+  dnet:
+    external: true
