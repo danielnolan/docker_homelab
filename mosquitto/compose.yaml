@@ -3,6 +3,8 @@ services:
     user: 1000:989
     image: eclipse-mosquitto
     container_name: mosquitto
+    environment:
+      - TZ=${TZ}
     restart: always
     networks:
       - dnet

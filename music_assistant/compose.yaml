@@ -13,6 +13,7 @@ services:
       - apparmor:unconfined
     environment:
       - LOG_LEVEL=info
+      - TZ=${TZ}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.music-assistant-server.entrypoints=web"

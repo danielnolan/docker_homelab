@@ -13,6 +13,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${KOMODO_DB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DB_PASSWORD}
+      TZ: ${TZ}
     labels:
       - "komodo.skip"
 
@@ -28,6 +29,7 @@ services:
       KOMODO_DATABASE_ADDRESS: mongo:27017
       KOMODO_DATABASE_USERNAME: ${KOMODO_DB_USERNAME}
       KOMODO_DATABASE_PASSWORD: ${KOMODO_DB_PASSWORD}
+      TZ: ${TZ}
     volumes:
       - ${COMPOSE_KOMODO_DATA_DIR}/backups:/backups
     labels:

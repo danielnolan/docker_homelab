@@ -6,7 +6,7 @@ services:
       - ${USERDIR:-$HOME}/docker/homeassistant/config:/config
       - /var/run/dbus:/run/dbus:ro
     environment:
-      - TZ=America/New_York
+      - TZ=${TZ}
     restart: always
     devices:
       - dev/ttyACM0:dev/ttyACM0

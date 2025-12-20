@@ -9,6 +9,8 @@ services:
       - "--httpListenAddr=:8428"
       - "--retentionPeriod=100y"
     restart: always
+    environment:
+      - TZ=${TZ}
     networks:
       - dnet
     labels:
@@ -25,6 +27,8 @@ services:
     command:
       - "--promscrape.config=/etc/prometheus/prometheus.yml"
       - "--remoteWrite.url=http://${VICTORIA_HOST}/api/v1/write"
+    environment:
+      - TZ=${TZ}
     networks:
       - dnet
     restart: always
