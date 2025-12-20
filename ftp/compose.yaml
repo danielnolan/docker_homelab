@@ -1,0 +1,15 @@
+services:
+  ftp-server:
+    container_name: ftp-server
+    restart: always
+    environment:
+      - FTP_PASS=${FTP_PASSWORD}
+      - FTP_USER=${FTP_USER}
+      - PUBLIC_IP=${FTP_IP}
+      - TZ=${TZ}
+    image: garethflowers/ftp-server
+    ports:
+      - "20-21:20-21/tcp"
+      - "40000-40009:40000-40009/tcp" # For passive mode
+    volumes:
+      - "${FTP_DIR}:/home/ms_01_ftp"
