@@ -1,0 +1,31 @@
+services:
+  backrest:
+    image: garethgeorge/backrest:latest
+    container_name: backrest
+    hostname: ${BACKREST_HOST}
+    volumes:
+      - ${USERDIR:-$HOME}/docker/backrest/data:/data
+      - ${USERDIR:-$HOME}/docker/backrest/config:/config
+      - ${USERDIR:-$HOME}/docker/backrest/cache:/cache
+      - ${USERDIR:-$HOME}/docker/backrest/tmp:/tmp
+      - ${USERDIR:-$HOME}/docker/backrest/rclone:/root/.config/rclone
+      - ${USERDIR:-$HOME}/docker:/userdata/docker
+      - ${LOCAL_RESTIC_REPO}:/repos/ms_01
+    environment:
+      - BACKREST_DATA=/data
+      - BACKREST_CONFIG=/config/config.json
+      - XDG_CACHE_HOME=/cache
+      - TMPDIR=/tmp
+      - TZ=${TZ}
+    networks:
+      - dnet
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backrest.entrypoints=web"
+      - "traefik.http.routers.backrest.rule=Host(`${BACKREST_HOST}`)"
+      - "traefik.http.services.backrest.loadbalancer.server.port=9898"
+
+networks:
+  dnet:
+    external: true
