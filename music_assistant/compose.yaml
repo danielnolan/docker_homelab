@@ -16,6 +16,7 @@ services:
       - TZ=${TZ}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.music-assistant-server.entrypoints=web"
+      - "traefik.http.routers.music-assistant-server.entrypoints=websecure"
+      - "traefik.http.routers.music-assistant-server.tls=true"
       - "traefik.http.routers.music-assistant-server.rule=Host(`${MA_HOST}`)"
       - "traefik.http.services.music-assistant-server.loadbalancer.server.url=${MA_INTERNAL_URL}"

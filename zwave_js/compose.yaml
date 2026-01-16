@@ -19,8 +19,9 @@ services:
       - 3000:3000  # Websocket Server
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.zwave-js.entrypoints=websecure"
+      - "traefik.http.routers.zwave-js.tls=true"
       - "traefik.http.routers.zwave-js.rule=Host(`${ZWAVE_HOST}`)"
-      - "traefik.http.routers.zwave-js.entrypoints=web"
       - "traefik.http.services.zwave-js.loadbalancer.server.port=8091"
 
 networks:

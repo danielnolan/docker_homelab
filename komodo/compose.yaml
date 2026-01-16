@@ -35,8 +35,9 @@ services:
     labels:
       - "komodo.skip"
       - "traefik.enable=true"
-      - "traefik.http.routers.komodo.entrypoints=web"
+      - "traefik.http.routers.komodo.entrypoints=web,websecure"
       - "traefik.http.routers.komodo.rule=Host(`${KOMODO_TRAEFIK_HOST}`)"
+      - "traefik.http.routers.komodo.tls=true"
       - "traefik.http.services.komodo.loadbalancer.server.port=9120"
 
 networks:

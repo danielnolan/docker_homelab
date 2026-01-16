@@ -1,6 +1,7 @@
 services:
   traefik:
-    image: traefik:v3.6
+    image: traefik:latest
+    container_name: traefik
     restart: always
     networks:
       dnet:
@@ -8,19 +9,28 @@ services:
     ports:
       - 80:80
       - 443:443
-      - 8080:8080
+    security_opt:
+      - no-new-privileges:true
     environment:
+      - CF_DNS_API_TOKEN=${CLOUDFLARE_API_TOKEN}
       - TZ=${TZ}
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /home/daniel/docker/traefik/data/traefik.yaml:/traefik.yaml:ro
+      - /home/daniel/docker/traefik/data/acme.json:/acme.json
+      - /home/daniel/docker/traefik/data/config.yaml:/config.yaml:ro
     labels:
       - "komodo.skip"
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_HOST}`)"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_CREDENTIALS}"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.middlewares=traefik-auth"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.tls.certresolver=cloudflare"
+      - "traefik.http.routers.traefik.tls.domains[0].main=${CERT_DOMAIN}"
+      - "traefik.http.routers.traefik.tls.domains[0].sans=*.${CERT_DOMAIN}"
+      - "traefik.http.routers.traefik.service=api@internal"
 
 networks:
   dnet:

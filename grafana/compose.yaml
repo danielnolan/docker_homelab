@@ -15,7 +15,8 @@ services:
       - dnet
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.grafana.entrypoints=web"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.routers.grafana.tls=true"
       - "traefik.http.routers.grafana.rule=Host(`${GF_HOST}`)"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
 

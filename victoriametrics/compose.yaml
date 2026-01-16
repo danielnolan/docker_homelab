@@ -15,7 +15,8 @@ services:
       - dnet
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.victoriametrics.entrypoints=web"
+      - "traefik.http.routers.victoriametrics.entrypoints=websecure"
+      - "traefik.http.routers.victoriametrics.tls=true"
       - "traefik.http.routers.victoriametrics.rule=Host(`${VICTORIA_HOST}`)"
       - "traefik.http.services.victoriametrics.loadbalancer.server.port=8428"
 
