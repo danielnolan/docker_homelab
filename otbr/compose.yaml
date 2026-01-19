@@ -1,0 +1,26 @@
+services:
+  otbr:
+    container_name: otbr
+    image: ghcr.io/ownbee/hass-otbr-docker:latest
+    restart: unless-stopped
+    network_mode: host
+    privileged: true
+    environment:
+      - TZ=${TZ}
+      - DEVICE=/dev/radio
+      - BACKBONE_IF=enp87s0
+      - FLOW_CONTROL=1
+      - FIREWALL=1
+      - NAT64=1
+      - BAUDRATE=460800
+      - OTBR_REST_PORT=8081
+      - OTBR_WEB_PORT=8086
+      - AUTOFLASH_FIRMWARE=0
+    devices:
+      - /dev/serial/by-id/usb-Nabu_Casa_ZBT-2_9C139EAC0ED8-if00:/dev/radio
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.otbr.entrypoints=websecure"
+      - "traefik.http.routers.otbr.rule=Host(`${OTBR_HOST}`)"
+      - "traefik.http.routers.otbr.tls=true"
+      - "traefik.http.services.otbr.loadbalancer.server.url=${OTBR_INTERNAL_URL}"
