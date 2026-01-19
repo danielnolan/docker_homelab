@@ -1,0 +1,12 @@
+services:
+  matter-server:
+    container_name: matter-server
+    image: ghcr.io/home-assistant-libs/python-matter-server:stable
+    restart: unless-stopped
+    network_mode: host
+    security_opt:
+      - apparmor=unconfined
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ${USERDIR:-$HOME}/docker/matter-server:/data
