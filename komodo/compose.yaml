@@ -18,7 +18,8 @@ services:
       - "komodo.skip"
 
   core:
-    image: ghcr.io/moghtech/komodo-core:${COMPOSE_KOMODO_IMAGE_TAG:-latest}
+    image: ghcr.io/moghtech/komodo-core:${COMPOSE_KOMODO_IMAGE_TAG:-2}
+    init: true
     restart: unless-stopped
     depends_on:
       - mongo
@@ -32,6 +33,7 @@ services:
       TZ: ${TZ}
     volumes:
       - ${COMPOSE_KOMODO_DATA_DIR}/backups:/backups
+      - ${COMPOSE_KOMODO_DATA_DIR}/keys:/config/keys
     labels:
       - "komodo.skip"
       - "traefik.enable=true"
