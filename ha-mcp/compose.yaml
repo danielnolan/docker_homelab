@@ -1,0 +1,14 @@
+services:
+  ha-mcp:
+    image: ghcr.io/homeassistant-ai/ha-mcp:latest
+    container_name: ha-mcp
+    command: ["fastmcp", "run", "fastmcp-http.json"]
+    environment:
+      - HOMEASSISTANT_URL=http://host.docker.internal:8123
+      - HOMEASSISTANT_TOKEN=${HA_TOKEN}
+      - BACKUP_HINT=normal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "127.0.0.1:18086:8086"
+    restart: unless-stopped
