@@ -19,6 +19,7 @@ services:
       - ${USERDIR:-$HOME}:/userdata:ro
       - ${USERDIR:-$HOME}/.ssh/ms01-backup:/keys/ms01-backup:ro
       - ${USERDIR:-$HOME}/.ssh/known_hosts:/keys/known_hosts:ro
+      - ${USERDIR:-$HOME}/docker/backrest/ssh/config:/root/.ssh/config:ro
     ports:
       - 127.0.0.1:9898:9898
     labels:
