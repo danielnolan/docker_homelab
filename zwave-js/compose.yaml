@@ -9,8 +9,6 @@ services:
       - SESSION_SECRET=${ZWAVE_SESSION_SECRET}
       - ZWAVEJS_EXTERNAL_CONFIG=/usr/src/app/store/.config-db
       - TZ=${TZ}
-    devices:
-      - /dev/serial/by-id/${ZWAVE_USB_DEVICE_ID}:/dev/zwave
     volumes:
       - ${USERDIR:-$HOME}/docker/zwave-js:/usr/src/app/store
     networks:
