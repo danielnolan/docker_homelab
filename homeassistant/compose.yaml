@@ -10,7 +10,6 @@ services:
     restart: always
     devices:
       - dev/ttyACM0:dev/ttyACM0
-      - dev/ttyACM1:dev/ttyACM1
     cap_add:
       - NET_ADMIN
       - NET_RAW
