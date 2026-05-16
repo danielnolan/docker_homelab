@@ -7,6 +7,8 @@ services:
     user: "1000:1000"
     group_add:
       - "989"
+    cap_add:
+      - DAC_READ_SEARCH
     networks:
       - dnet
     environment:
