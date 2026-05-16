@@ -4,11 +4,6 @@ services:
     container_name: backrest
     hostname: backrest
     restart: unless-stopped
-    user: "1000:1000"
-    group_add:
-      - "989"
-    cap_add:
-      - DAC_READ_SEARCH
     networks:
       - dnet
     environment:
@@ -16,17 +11,15 @@ services:
       - BACKREST_CONFIG=/config/config.json
       - BACKREST_DATA=/data
       - XDG_CACHE_HOME=/cache
-      - HOME=/home/backrest
       - TZ=${TZ}
     volumes:
       - ${USERDIR:-$HOME}/docker/backrest/data:/data
       - ${USERDIR:-$HOME}/docker/backrest/config:/config
       - ${USERDIR:-$HOME}/docker/backrest/cache:/cache
-      - ${USERDIR:-$HOME}/docker/backrest/home:/home/backrest
       - ${USERDIR:-$HOME}:/userdata:ro
       - ${USERDIR:-$HOME}/.ssh/ms01-backup:/keys/ms01-backup:ro
       - ${USERDIR:-$HOME}/.ssh/known_hosts:/keys/known_hosts:ro
-      - ${USERDIR:-$HOME}/docker/backrest/passwd:/etc/passwd:ro
+      - ${USERDIR:-$HOME}/docker/backrest/ssh_config:/root/.ssh/config:ro
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 127.0.0.1:9898:9898
