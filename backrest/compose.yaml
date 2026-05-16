@@ -5,6 +5,8 @@ services:
     hostname: backrest
     restart: unless-stopped
     user: "1000:1000"
+    group_add:
+      - "989"
     networks:
       - dnet
     environment:
@@ -23,6 +25,7 @@ services:
       - ${USERDIR:-$HOME}/.ssh/ms01-backup:/keys/ms01-backup:ro
       - ${USERDIR:-$HOME}/.ssh/known_hosts:/keys/known_hosts:ro
       - ${USERDIR:-$HOME}/docker/backrest/passwd:/etc/passwd:ro
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 127.0.0.1:9898:9898
     labels:
