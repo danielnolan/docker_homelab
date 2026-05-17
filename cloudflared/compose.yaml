@@ -1,0 +1,15 @@
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: always
+    command: tunnel run
+    networks:
+      - dnet
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+      - TZ=${TZ}
+
+networks:
+  dnet:
+    external: true
