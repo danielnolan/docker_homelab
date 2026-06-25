@@ -19,7 +19,7 @@ services:
     devices:
       - /dev/serial/by-id/usb-Nabu_Casa_ZBT-2_9C139EAC0ED8-if00:/dev/radio
     volumes:
-      - ~/docker/otbr:/var/lib/thread
+      - ~/docker/otbr:/data/thread
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.otbr.entrypoints=websecure"
