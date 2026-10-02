@@ -1,6 +1,6 @@
 services:
   mongo:
-    image: mongo
+    image: mongo:9.0
     command: --quiet --wiredTigerCacheSizeGB 0.25
     restart: unless-stopped
     ports:
