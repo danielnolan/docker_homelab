@@ -2,7 +2,7 @@ services:
   ha-mcp:
     image: ghcr.io/homeassistant-ai/ha-mcp:latest
     container_name: ha-mcp
-    command: ["fastmcp", "run", "fastmcp-http.json"]
+    command: ["ha-mcp-web"]
     environment:
       - HOMEASSISTANT_URL=http://host.docker.internal:8123
       - HOMEASSISTANT_TOKEN=${HA_TOKEN}
