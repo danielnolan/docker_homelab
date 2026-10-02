@@ -20,9 +20,3 @@ services:
       - /dev/serial/by-id/usb-Nabu_Casa_ZBT-2_9C139EAC0ED8-if00:/dev/radio
     volumes:
       - ~/docker/otbr:/data/thread
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.otbr.entrypoints=websecure"
-      - "traefik.http.routers.otbr.rule=Host(`${OTBR_HOST}`)"
-      - "traefik.http.routers.otbr.tls=true"
-      - "traefik.http.services.otbr.loadbalancer.server.url=${OTBR_INTERNAL_URL}"

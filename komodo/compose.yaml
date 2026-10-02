@@ -3,8 +3,6 @@ services:
     image: mongo:9.0
     command: --quiet --wiredTigerCacheSizeGB 0.25
     restart: unless-stopped
-    ports:
-      - 27017:27017
     volumes:
       - ${COMPOSE_KOMODO_DATA_DIR}/mongo_data:/data/db
       - ${COMPOSE_KOMODO_DATA_DIR}/mongo_config:/data/configdb
