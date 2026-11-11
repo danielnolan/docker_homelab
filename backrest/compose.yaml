@@ -17,9 +17,6 @@ services:
       - ${USERDIR:-$HOME}/docker/backrest/config:/config
       - ${USERDIR:-$HOME}/docker/backrest/cache:/cache
       - ${USERDIR:-$HOME}:/userdata:ro
-      - ${USERDIR:-$HOME}/.ssh/ms01-backup:/keys/ms01-backup:ro
-      - ${USERDIR:-$HOME}/.ssh/known_hosts:/keys/known_hosts:ro
-      - ${USERDIR:-$HOME}/docker/backrest/ssh_config:/root/.ssh/config:ro
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 127.0.0.1:9898:9898
