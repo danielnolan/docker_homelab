@@ -7,5 +7,6 @@ services:
     read_only: true
     environment:
       - TZ=${TZ}
+      - BLE_PROXY=true
     volumes:
       - ${USERDIR:-$HOME}/docker/matter-server:/data
