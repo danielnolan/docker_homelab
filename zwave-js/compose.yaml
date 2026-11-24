@@ -14,7 +14,7 @@ services:
     networks:
       - dnet
     ports:
-      - 3000:3000  # Websocket Server
+      - 127.0.0.1:3000:3000  # Websocket Server (HA only, via localhost)
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.zwave-js.entrypoints=websecure"

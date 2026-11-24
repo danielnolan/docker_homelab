@@ -9,8 +9,8 @@ services:
     networks:
       - dnet
     ports:
-      - 1883:1883
-      - 9001:9001
+      - 127.0.0.1:1883:1883
+      - 127.0.0.1:9001:9001
     volumes:
       - ${USERDIR:-$HOME}/docker/mosquitto:/mosquitto
       - ${USERDIR:-$HOME}/docker/mosquitto/data:/mosquitto/data
