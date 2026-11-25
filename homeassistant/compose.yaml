@@ -9,7 +9,7 @@ services:
       - TZ=${TZ}
     restart: always
     devices:
-      - dev/ttyACM0:dev/ttyACM0
+      - /dev/serial/by-id/usb-Nabu_Casa_ZBT-2_9C139EAC0ED8-if00:/dev/ttyACM0  # ZBT-2 (Zigbee firmware) for ZHA
     cap_add:
       - NET_ADMIN
       - NET_RAW
