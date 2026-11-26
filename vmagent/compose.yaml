@@ -1,0 +1,22 @@
+# vmagent runs next to Home Assistant and pushes to VictoriaMetrics (on another box).
+# If VictoriaMetrics is unreachable, samples are buffered on disk and sent later.
+services:
+  vmagent:
+    container_name: vmagent
+    image: victoriametrics/vmagent:latest
+    volumes:
+      - ${USERDIR:-$HOME}/docker/vmagent/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ${USERDIR:-$HOME}/docker/vmagent/data:/vmagent-remotewrite-data
+    command:
+      - "--promscrape.config=/etc/prometheus/prometheus.yml"
+      - "--remoteWrite.url=https://${VICTORIA_HOST}/api/v1/write"
+      - "--remoteWrite.tmpDataPath=/vmagent-remotewrite-data"
+    environment:
+      - TZ=${TZ}
+    networks:
+      - dnet
+    restart: always
+
+networks:
+  dnet:
+    external: true
