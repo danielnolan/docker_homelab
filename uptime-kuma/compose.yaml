@@ -1,0 +1,21 @@
+services:
+  uptime-kuma:
+    container_name: uptime-kuma
+    image: louislam/uptime-kuma:2
+    volumes:
+      - ${USERDIR:-$HOME}/docker/uptime-kuma:/app/data
+    environment:
+      - TZ=${TZ}
+    restart: always
+    networks:
+      - dnet
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.uptime-kuma.entrypoints=websecure"
+      - "traefik.http.routers.uptime-kuma.tls=true"
+      - "traefik.http.routers.uptime-kuma.rule=Host(`${KUMA_HOST}`)"
+      - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
+
+networks:
+  dnet:
+    external: true
