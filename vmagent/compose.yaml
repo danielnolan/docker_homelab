@@ -11,6 +11,8 @@ services:
       - "--promscrape.config=/etc/prometheus/prometheus.yml"
       - "--remoteWrite.url=https://${VICTORIA_HOST}/api/v1/write"
       - "--remoteWrite.tmpDataPath=/vmagent-remotewrite-data"
+      - "--remoteWrite.basicAuth.username=${VM_USERNAME}"
+      - "--remoteWrite.basicAuth.password=${VM_PASSWORD}"
     environment:
       - TZ=${TZ}
     networks:
