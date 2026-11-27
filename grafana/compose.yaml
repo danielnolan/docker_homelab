@@ -18,6 +18,8 @@ services:
       - "traefik.http.routers.grafana.entrypoints=websecure"
       - "traefik.http.routers.grafana.tls=true"
       - "traefik.http.routers.grafana.rule=Host(`${GF_HOST}`)"
+      # IP allowlist, defined per box in ~/docker/traefik/data/config.yaml (not in git).
+      - "traefik.http.routers.grafana.middlewares=admin-allow@file"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
 
 networks:

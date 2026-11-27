@@ -25,6 +25,8 @@ services:
       - "traefik.http.routers.backrest.entrypoints=websecure"
       - "traefik.http.routers.backrest.tls=true"
       - "traefik.http.routers.backrest.rule=Host(`${BACKREST_HOST}`)"
+      # IP allowlist, defined per box in ~/docker/traefik/data/config.yaml (not in git).
+      - "traefik.http.routers.backrest.middlewares=admin-allow@file"
       - "traefik.http.services.backrest.loadbalancer.server.port=9898"
 
 networks:

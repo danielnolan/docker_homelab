@@ -20,6 +20,8 @@ services:
       - "traefik.http.routers.victoriametrics.entrypoints=websecure"
       - "traefik.http.routers.victoriametrics.tls=true"
       - "traefik.http.routers.victoriametrics.rule=Host(`${VICTORIA_HOST}`)"
+      # IP allowlist, defined per box in ~/docker/traefik/data/config.yaml (not in git).
+      - "traefik.http.routers.victoriametrics.middlewares=metrics-writers@file"
       - "traefik.http.services.victoriametrics.loadbalancer.server.port=8428"
 
 networks:

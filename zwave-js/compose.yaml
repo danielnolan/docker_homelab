@@ -20,6 +20,8 @@ services:
       - "traefik.http.routers.zwave-js.entrypoints=websecure"
       - "traefik.http.routers.zwave-js.tls=true"
       - "traefik.http.routers.zwave-js.rule=Host(`${ZWAVE_HOST}`)"
+      # IP allowlist, defined per box in ~/docker/traefik/data/config.yaml (not in git).
+      - "traefik.http.routers.zwave-js.middlewares=admin-allow@file"
       - "traefik.http.services.zwave-js.loadbalancer.server.port=8091"
 
 networks:

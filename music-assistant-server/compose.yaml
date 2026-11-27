@@ -19,4 +19,6 @@ services:
       - "traefik.http.routers.music-assistant-server.entrypoints=websecure"
       - "traefik.http.routers.music-assistant-server.tls=true"
       - "traefik.http.routers.music-assistant-server.rule=Host(`${MA_HOST}`)"
+      # IP allowlist, defined per box in ~/docker/traefik/data/config.yaml (not in git).
+      - "traefik.http.routers.music-assistant-server.middlewares=admin-allow@file"
       - "traefik.http.services.music-assistant-server.loadbalancer.server.url=${MA_INTERNAL_URL}"
