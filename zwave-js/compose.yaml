@@ -9,6 +9,9 @@ services:
       - SESSION_SECRET=${ZWAVE_SESSION_SECRET}
       - ZWAVEJS_EXTERNAL_CONFIG=/usr/src/app/store/.config-db
       - TZ=${TZ}
+      # Behind Traefik (fixed dnet address, see traefik/compose.yaml): trust X-Forwarded-For only
+      # from it, so login rate limiting and logs see the real client instead of one shared IP.
+      - TRUST_PROXY=172.20.0.20
     volumes:
       - ${USERDIR:-$HOME}/docker/zwave-js:/usr/src/app/store
     networks:
