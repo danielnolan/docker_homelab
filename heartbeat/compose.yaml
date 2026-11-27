@@ -1,0 +1,36 @@
+# Dead-man heartbeat to Healthchecks.io: pings every minute while CHECK_URL answers.
+# If the box, Docker or the checked service is down, pings stop and Healthchecks
+# alerts after the check's grace period. One Komodo stack per server.
+# Env (set in Komodo, not in git): HC_PING_URL, CHECK_URL (an http URL reachable on dnet).
+services:
+  heartbeat:
+    container_name: heartbeat
+    image: curlimages/curl:8.23.0
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        while true; do
+          if curl -fsS -m 10 -o /dev/null "$$CHECK_URL"; then
+            curl -fsS -m 10 --retry 3 -o /dev/null "$$HC_PING_URL"
+          else
+            # Just log it; no ping, so a real outage alerts after the grace period
+            # but a quick service restart doesn't.
+            curl -fsS -m 10 --retry 3 -o /dev/null --data-raw "$$CHECK_URL not answering" "$$HC_PING_URL/log"
+          fi
+          sleep 60
+        done
+    environment:
+      - HC_PING_URL=${HC_PING_URL}
+      - CHECK_URL=${CHECK_URL}
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    restart: always
+    networks:
+      - dnet
+
+networks:
+  dnet:
+    external: true
