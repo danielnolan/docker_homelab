@@ -1,0 +1,42 @@
+# Host + container metrics, scraped by the vmagent on the same box.
+# Deployed to every server (one Komodo stack per server, project "host-metrics").
+services:
+  node-exporter:
+    container_name: node-exporter
+    image: prom/node-exporter:v1.10.2
+    command:
+      - "--path.rootfs=/host"
+      # Only on the dnet bridge gateway: reachable by vmagent, not from the LAN.
+      - "--web.listen-address=172.20.0.1:9100"
+      - "--collector.filesystem.mount-points-exclude=^/(dev|proc|sys|run|var/lib/docker/.+)($$|/)"
+    network_mode: host
+    pid: host
+    volumes:
+      - /:/host:ro,rslave
+    restart: always
+
+  cadvisor:
+    container_name: cadvisor
+    image: gcr.io/cadvisor/cadvisor:v0.52.1
+    command:
+      - "--docker_only=true"
+      - "--housekeeping_interval=30s"
+      - "--store_container_labels=false"
+      - "--whitelisted_container_labels=com.docker.compose.project,com.docker.compose.service"
+      - "--enable_metrics=cpu,memory,network,diskIO,oom_event"
+    privileged: true
+    devices:
+      - /dev/kmsg
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /dev/disk:/dev/disk:ro
+    networks:
+      - dnet
+    restart: always
+
+networks:
+  dnet:
+    external: true
