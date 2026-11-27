@@ -8,6 +8,8 @@ services:
       - "--storageDataPath=/victoria-metrics-data"
       - "--httpListenAddr=:8428"
       - "--retentionPeriod=100y"
+      - "--httpAuth.username=${VM_USERNAME}"
+      - "--httpAuth.password=${VM_PASSWORD}"
     restart: always
     environment:
       - TZ=${TZ}
