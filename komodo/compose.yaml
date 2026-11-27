@@ -37,6 +37,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.komodo.entrypoints=web,websecure"
       - "traefik.http.routers.komodo.rule=Host(`${KOMODO_TRAEFIK_HOST}`)"
+      # IP allowlist incl. ms-01 (Home Assistant Komodo integration), defined per box in
+      # ~/docker/traefik/data/config.yaml (not in git). komodo-ext (GitHub webhook) stays open.
+      - "traefik.http.routers.komodo.middlewares=admin-allow-ha@file"
       - "traefik.http.routers.komodo.tls=true"
       - "traefik.http.services.komodo.loadbalancer.server.port=9120"
       - "traefik.http.routers.komodo-ext.rule=Host(`${KOMODO_EXTERNAL_TRAEFIK_HOST}`) && PathPrefix(`/listener`)"
